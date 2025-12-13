@@ -1,0 +1,22 @@
+n_steps: 2 # N message passing steps
+order: 2 # Multipole order (only implemented for 2)
+n_channels: 8 # Number of multipoles/channels
+n_bessel: 8 # Number of bessel functions used to encode distances between QM and QM particles
+n_bessel_pol: 2 # Number of bessel functions used to encode distances between MM and QM particles
+p: 6 # Exponent used in the envelope for the bessel functions
+trainable_bessel: False # Include bessel coeff in training.
+node_size: 128 # Size of the node embedding vectors.
+edge_size: 32 # Size of the edge embedding vectors.
+cutoff: 4.0 # Cutoff for the edges of the QM graph
+cutoff_esp: 14.0 # Cutoff for long-range (ESP + D4) interactions within the QM zone.
+cutoff_qmmm_esp: 9.0 # Cutoff for ESP interactions between QM and MM zone. This cutoff is only applied during simulation.
+cutoff_qmmm_pol: 8.0 # Cutoff for polarization interaction between QM and MM zone.
+pol_scaling: 0.35
+charge_scaling: 1.0
+aniso_pol: False
+eps_rf: 78.4 # Permittivity for the reation field.
+mrf: 4 # Parameter for the shifted reaction field.
+nrf: 6 # Parameter for the shifted reaction field.
+device_name: 'cuda' #
+dtype_name: 'float32'
+max_z: 54 # Define size of embedding table.

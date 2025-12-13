@@ -1,0 +1,9 @@
+name: amp_bms
+channels:
+    - conda-forge
+dependencies:
+    - openmm-torch==1.4
+    - openff-toolkit
+    - openmmforcefields
+    - pdbfixer
+    - pyyaml
