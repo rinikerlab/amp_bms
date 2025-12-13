@@ -1,3 +1,5 @@
+# Copyright (C) 2025 ETH Zurich, Moritz Thürlemann, and other AMP contributors
+
 """
 From
 https://github.com/mdtraj/mdtraj/blob/master/mdtraj/core/element.py
