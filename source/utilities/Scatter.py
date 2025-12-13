@@ -1,3 +1,5 @@
+# Copyright (C) 2025 ETH Zurich, Moritz Thürlemann, and other AMP contributors
+
 """basic scatter_sum operations from torch_scatter from
 https://github.com/mir-group/pytorch_runstats/blob/main/torch_runstats/scatter_sum.py
 Using code from https://github.com/rusty1s/pytorch_scatter, but cut down to avoid a dependency.

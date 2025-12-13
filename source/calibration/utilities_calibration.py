@@ -1,18 +1,78 @@
 # Copyright (C) 2025 ETH Zurich, Moritz Thürlemann, and other AMP contributors
 
-import time
 import torch
+import numpy as np
+import torch.nn as nn
+from torch import Tensor
+from typing import Optional
+import time
 import yaml
+from datastructures_calibration import Graph
 
-from datastructures.Graphs import Graph
-from utilities.Utilities import (
-    scalar_product,
-    ff_module,
-    build_Rx2,
-    cdist,
-    pdist_sq_unsafe,
-)
 
+def ff_module(
+    node_size,
+    num_layers,
+    input_size,
+    with_bias=True,
+    output_size=None,
+    activation=nn.SiLU(),
+    final_activation=None,
+):
+    layers = []
+    for idl in range(num_layers):
+        if idl == 0:
+            layers.append(nn.Linear(input_size, node_size, bias=with_bias))
+        else:
+            layers.append(nn.Linear(node_size, node_size, bias=with_bias))
+        layers.append(activation)
+    if output_size is not None:
+        layers.append(nn.Linear(node_size, output_size, bias=False))
+    if final_activation is not None:
+        layers.append(final_activation)
+    return nn.Sequential(*layers)
+
+def scalar_product(x, y, keepdim: bool = True):
+    return (x * y).sum(dim=-1, keepdim=keepdim)
+
+def pdist_sq_unsafe(A: Tensor):
+    A_norm = torch.square(A).sum(dim=-1, keepdim=True)
+    return A_norm - 2 * torch.bmm(A, A.permute(0, 2, 1)) + A_norm.transpose(2, 1)
+
+def cdist(A: Tensor, B: Tensor):
+    A_norm = torch.square(A).sum(dim=-1, keepdim=True)
+    B_norm = torch.square(B).sum(dim=-1, keepdim=True).transpose(2, 1)
+    return torch.sqrt(
+        torch.clip(A_norm - 2 * torch.bmm(A, B.permute(0, 2, 1)) + B_norm, 0.0)
+    )
+
+def detrace(RxR):
+    diagonal = torch.tile(
+        RxR.diagonal(dim1=-2, dim2=-1).mean(dim=-1, keepdim=True), (1, 3)
+    )
+    return RxR - torch.diag_embed(diagonal)
+
+def build_Rx2(Rx1):
+    return detrace(Rx1.unsqueeze(-1) * Rx1.unsqueeze(-2))
+
+def write_xyz(coords, symbols, file_name="test.xyz"):
+    num_atoms = len(symbols)
+    assert len(coords) == num_atoms
+    with open(file_name, "w") as file:
+        file.write(str(num_atoms) + "\n")
+        file.write("\n")
+        for ida in range(num_atoms):
+            file.write(
+                symbols[ida]
+                + " "
+                + str(coords[ida][0])
+                + " "
+                + str(coords[ida][1])
+                + " "
+                + str(coords[ida][2])
+                + "\n"
+            )
+    return file_name
 
 def load_parameters(filename: str):
     file = open(filename, "r")
@@ -26,7 +86,6 @@ def load_parameters(filename: str):
         torch.set_default_dtype(torch.float64)
         PARAMETERS["dtype"] = torch.double
     return PARAMETERS
-
 
 def batch_to_graph(
     batch, cutoff, cutoff_esp, cutoff_qmmm_esp, cutoff_qmmm_pol, n_channels
@@ -44,7 +103,6 @@ def batch_to_graph(
         n_channels=n_channels,
     )
     return graph
-
 
 def build_graph(
     Z,
@@ -125,7 +183,6 @@ def build_graph(
     )
     return graph
 
-
 def prepare_qm_indices(dmat_sq, coordinates, cutoff: float = 5.0):
     mol_size = dmat_sq.shape[-1]
     mol_id, senders, receivers = torch.where(
@@ -139,7 +196,6 @@ def prepare_qm_indices(dmat_sq, coordinates, cutoff: float = 5.0):
     Rx1, Rx2 = Rx1.unsqueeze(1), Rx2.unsqueeze(1)
     senders, receivers = senders + shift, receivers + shift
     return R1, R2, Rx1, Rx2, senders, receivers
-
 
 def prepare_es_indices(dmat_sq, cutoff_qm: float = 5.0, cutoff_esp: float = 14.0):
     mol_size = dmat_sq.shape[-1]
@@ -157,7 +213,6 @@ def prepare_es_indices(dmat_sq, cutoff_qm: float = 5.0, cutoff_esp: float = 14.0
         triu_indices_cutoff[1] + shift,
     )
     return R1_esp, R2_esp, senders_esp, receivers_esp, batch_index_esp
-
 
 def prepare_features_qmmm(
     dmat,
@@ -205,3 +260,77 @@ def prepare_features_qmmm(
         mm_monos_esp,
         mm_monos_pol,
     )
+
+"""basic scatter_sum operations from torch_scatter from
+https://github.com/mir-group/pytorch_runstats/blob/main/torch_runstats/scatter_sum.py
+Using code from https://github.com/rusty1s/pytorch_scatter, but cut down to avoid a dependency.
+PyTorch plans to move these features into the main repo, but until then,
+to make installation simpler, we need this pure python set of wrappers
+that don't require installing PyTorch C++ extensions.
+See https://github.com/pytorch/pytorch/issues/63780.
+
+From:
+https://github.com/ACEsuit/mace/blob/7543f162cfc02b41c1654c73d8c7a393b8b9e9d5/mace/tools/scatter.py
+"""
+
+
+def _broadcast(src: torch.Tensor, other: torch.Tensor, dim: int):
+    if dim < 0:
+        dim = other.dim() + dim
+    if src.dim() == 1:
+        for _ in range(0, dim):
+            src = src.unsqueeze(0)
+    for _ in range(src.dim(), other.dim()):
+        src = src.unsqueeze(-1)
+    src = src.expand_as(other)
+    return src
+
+def scatter_sum(
+    src: torch.Tensor,
+    index: torch.Tensor,
+    dim: int = -1,
+    out: Optional[torch.Tensor] = None,
+    dim_size: Optional[int] = None,
+    reduce: str = "sum",
+) -> torch.Tensor:
+    assert reduce == "sum"  # for now, TODO
+    index = _broadcast(index, src, dim)
+    if out is None:
+        size = list(src.size())
+        if dim_size is not None:
+            size[dim] = dim_size
+        elif index.numel() == 0:
+            size[dim] = 0
+        else:
+            size[dim] = int(index.max()) + 1
+        out = torch.zeros(size, dtype=src.dtype, device=src.device)
+        return out.scatter_add_(dim, index, src)
+    else:
+        return out.scatter_add_(dim, index, src)
+
+def scatter_mean(
+    src: torch.Tensor,
+    index: torch.Tensor,
+    dim: int = -1,
+    out: Optional[torch.Tensor] = None,
+    dim_size: Optional[int] = None,
+) -> torch.Tensor:
+    out = scatter_sum(src, index, dim, out, dim_size)
+    dim_size = out.size(dim)
+
+    index_dim = dim
+    if index_dim < 0:
+        index_dim = index_dim + src.dim()
+    if index.dim() <= index_dim:
+        index_dim = index.dim() - 1
+
+    ones = torch.ones(index.size(), dtype=src.dtype, device=src.device)
+    count = scatter_sum(ones, index, index_dim, None, dim_size)
+    count[count < 1] = 1
+    count = _broadcast(count, out, dim)
+    if out.is_floating_point():
+        out.true_divide_(count)
+    else:
+        out.div_(count, rounding_mode="floor")
+    return out
+

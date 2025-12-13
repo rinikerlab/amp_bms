@@ -1,3 +1,5 @@
+# Copyright (C) 2025 ETH Zurich, Moritz Thürlemann, and other AMP contributors
+
 import os
 import torch
 

@@ -55,9 +55,7 @@ class Graph:
         self.batch_index_esp = batch_index_esp
         self.qm_indices_qmmm_esp = qm_indices_qmmm_esp
         if not self.md_mode:
-            self.batch_ids = torch.arange(
-                batch_size, device=self.device
-            ).repeat_interleave(self.mol_size)
+            self.batch_ids = torch.arange(batch_size, device=self.device).repeat_interleave(self.mol_size)
         self.R1, self.R2, self.Rx1, self.Rx2 = R1, R2, Rx1, Rx2
         self.senders, self.receivers = senders, receivers
         self.R1_esp, self.R2_esp = R1_esp, R2_esp
@@ -66,35 +64,22 @@ class Graph:
         self.edges = _
         self.aniso_weights = _
         self.envelope = _
-        self.monos = _
-        self.dipos = _
-        self.quads = _
-        self.dipos_qmmm = _
-        self.quads_qmmm = _
-        self.V_total = torch.zeros(
-            (batch_size, 1), device=self.device, dtype=self.dtype
-        )
-        self.V_nodes = torch.zeros(
-            (batch_size, 1), device=self.device, dtype=self.dtype
-        )
-        self.V_coulomb = torch.zeros(
-            (batch_size, 1), device=self.device, dtype=self.dtype
-        )
+        self.monos = _  # torch.zeros((self.n_nodes, 1), device=self.device, dtype=self.dtype)
+        self.dipos = _  # torch.zeros((self.n_nodes, n_channels, 3), device=self.device, dtype=self.dtype)
+        self.quads = _  # torch.zeros((self.n_nodes, n_channels, 3, 3), device=self.device, dtype=self.dtype)
+        self.dipos_qmmm = _  # torch.zeros((self.n_nodes, 3), device=self.device, dtype=self.dtype)
+        self.quads_qmmm = _  # torch.zeros((self.n_nodes, 3, 3), device=self.device, dtype=self.dtype)
+        self.V_total = torch.zeros((batch_size, 1), device=self.device, dtype=self.dtype)
+        self.V_nodes = torch.zeros((batch_size, 1), device=self.device, dtype=self.dtype)
+        self.V_coulomb_qm = torch.zeros((batch_size, 1), device=self.device, dtype=self.dtype)
+        self.V_coulomb_qmmm = torch.zeros((batch_size, 1), device=self.device, dtype=self.dtype)
         self.V_D4 = torch.zeros((batch_size, 1), device=self.device, dtype=self.dtype)
         self.V_ZBL = torch.zeros((batch_size, 1), device=self.device, dtype=self.dtype)
         self.edges_qmmm = _
         self.envelope_qmmm = _
-        self.R1_qmmm_esp, self.Rx1_qmmm_esp, self.Rx2_qmmm_esp = (
-            R1_qmmm_esp,
-            Rx1_qmmm_esp,
-            Rx2_qmmm_esp,
-        )
+        self.R1_qmmm_esp, self.Rx1_qmmm_esp, self.Rx2_qmmm_esp = R1_qmmm_esp, Rx1_qmmm_esp, Rx2_qmmm_esp
         self.receivers_qmmm_esp = receivers_qmmm_esp
-        self.R1_qmmm_pol, self.Rx1_qmmm_pol, self.Rx2_qmmm_pol = (
-            R1_qmmm_pol,
-            Rx1_qmmm_pol,
-            Rx2_qmmm_pol,
-        )
+        self.R1_qmmm_pol, self.Rx1_qmmm_pol, self.Rx2_qmmm_pol = R1_qmmm_pol, Rx1_qmmm_pol, Rx2_qmmm_pol
         self.receivers_qmmm_pol = receivers_qmmm_pol
         self.mm_monos_esp = mm_monos_esp
         self.mm_monos_pol = mm_monos_pol

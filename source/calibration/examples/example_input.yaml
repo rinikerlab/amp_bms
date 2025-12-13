@@ -1,0 +1,101 @@
+AMP_parameters_path: PATH_TO_AMP_YAML
+add_custom_constraint: false
+add_force_btw_atoms: false
+add_perparticle_pos_res: false
+add_prod_chk_reporter: false
+add_prod_csv_reporter: true
+add_prod_dcd_reporter: true
+add_prod_hdf5_reporter: false
+add_restraint_position: false
+alchemical_FE: false
+add_umbrella_force: false
+barostat_parameters:
+  frequency: 2000
+  pressure: 1.0
+  temperature: 293.15
+barostat_type: MCB
+base_path: PATH_TO_SIMULATION_FOLDER
+box_dimension: 4.0
+cache_path: PATH_TO_CACHE_JSON
+constraints: ''
+continue_simulation: false
+cutoff_nb: 1.0
+device_ml: cuda
+do_equilibration: false
+ff_name: openff_unconstrained-2.2.0
+forcefield:
+  default:
+  - tip4pfb.xml
+  - amber14-all.xml
+in_state_xml_path: null
+initial_topology_name: init_topology.pdb
+integrator_parameters:
+  friction_coefficient: 1.0
+  step_size: 0.0005
+  temperature: 293.15
+integrator_type: LMI
+maxIterations: 0
+minimize: true
+mm_zone_resnames:
+- HOH
+mol_charge: 1
+molecules: []
+nonbondedMethod: PME
+out_state_xml_path: PATH_TO_STATE_XML
+pdb_path: PATH_TO_PDB_FILE
+platform_name: CUDA
+production_csv_name: production_properties_trajectory.csv
+production_csv_parameters:
+  append: true
+  density: true
+  elapsedTime: false
+  kineticEnergy: true
+  potentialEnergy: true
+  progress: false
+  remainingTime: false
+  separator: "\t"
+  speed: true
+  step: true
+  systemMass: null
+  temperature: true
+  time: false
+  totalEnergy: true
+  totalSteps: null
+  volume: true
+production_dcd_name: production_trajectory.dcd
+production_readout_frequency: 100
+production_steps: 4000000
+qm_zone_resnames:
+- ACE
+- ASN
+- LEU
+- TYR
+- ILE
+- GLN
+- TRP
+- LEU
+- LYS
+- ASP
+- GLY
+- GLY
+- PRO
+- SER
+- SER
+- GLY
+- ARG
+- PRO
+- PRO
+- PRO
+- SER
+- NME
+rigidWater: true
+save_final_state: true
+scaling_charges: 1.0
+set_logger: true
+set_to_temperature: false
+simulation_name: scaling_index_000
+simulation_phase: production
+tip4p: true
+use_AMP: true
+use_barostat: true
+weights_path: PATH_TO_AMP_WEIGHTS

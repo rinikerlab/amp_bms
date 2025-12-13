@@ -1,3 +1,5 @@
+# Copyright (C) 2025 ETH Zurich, Moritz Thürlemann, and other AMP contributors
+
 from torch import Tensor
 from typing import Final
 from utilities.Scatter import scatter_sum as scatter

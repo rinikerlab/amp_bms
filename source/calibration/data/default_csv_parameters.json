@@ -1,0 +1,18 @@
+{
+    "step": true,
+    "time": false,
+    "potentialEnergy": true,
+    "kineticEnergy": true,
+    "totalEnergy": true,
+    "temperature": true,
+    "volume": true,
+    "density": true,
+    "progress": false,
+    "remainingTime": false,
+    "speed": true,
+    "elapsedTime": false,
+    "separator": "\t",
+    "systemMass": null,
+    "totalSteps": null,
+    "append": true
+}

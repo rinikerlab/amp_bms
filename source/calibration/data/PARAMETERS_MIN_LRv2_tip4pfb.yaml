@@ -1,0 +1,31 @@
+n_steps: 2 # N message passing steps
+order: 2 # Multipole order (only implemented for 2)
+n_channels: 8 # Number of multipoles/channels
+n_bessel: 8 # Number of bessel functions used to encode distances between QM and QM particles
+n_bessel_pol: 2 # Number of bessel functions used to encode distances between MM and QM particles
+p: 6 # Exponent used in the envelope for the bessel functions
+trainable_bessel: False # Include bessel coeff in training.
+node_size: 128 # Size of the node embedding vectors.
+edge_size: 32 # Size of the edge embedding vectors.
+cutoff: 4.0 # Cutoff for the edges of the QM graph
+cutoff_esp: 14.0 # Cutoff for long-range (ESP + D4) interactions within the QM zone.
+cutoff_qmmm_esp: 9.0 # Cutoff for ESP interactions between QM and MM zone. This cutoff is only applied during simulation.
+cutoff_qmmm_pol: 8.0 # Cutoff for polarization interaction between QM and MM zone.
+aniso_pol: False
+eps_rf: 78.4 # Permittivity for the reation field.
+mrf: 4 # Parameter for the shifted reaction field.
+nrf: 6 # Parameter for the shifted reaction field.
+device_name: 'cuda' #
+dtype_name: 'float32'
+alpha: 0.99 # Weight factor gradients/energies
+beta: 100 # Weight factor MM gradients.
+gamma: 100 # Weight factor molecular multipoles.
+zeta: 1 # Weight factor C6 coefficients.
+learning_rate: 0.0005 # Initial learning rate.
+decay_factor: 0.02 # Controls final learning rate through exp lr decay: learning_rate * decay_factor
+max_z: 54 # Define size of embedding table.
+max_grad_norm: 1 # Gradient clipping norm.
+n_samples: 512 #64 Number of samples used to sample validation loss.
+n_epochs: 24 # Number of training epochs.
+pol_scaling: 0.35 # polarizattion scaling factor
+
