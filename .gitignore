@@ -179,6 +179,5 @@ systems
 weights
 finetuning.ipynb
 *-Copy*
-*.pdb
-*.csv
+*csv
 data_md
