@@ -22,7 +22,7 @@ DATA_DIR = CALIBRATION_DIR / "data"
 write_yaml_py = CALIBRATION_DIR / "write_yaml.py"
 main_calibration_py = CALIBRATION_DIR / "main_water_in_water_calibration.py"
 
-base_path = "/base/path/to/simulation/folder" # adjust the path as necessary
+base_path = "/path/to/simulation/folder" # adjust the path as necessary
 scaling_factor_charge = 1.0 # scaling of charges (lambda_ch in manuscript) 
 charge = 0 # charge of QM zone
 pdb_path = DATA_DIR / "input_water.pdb"
