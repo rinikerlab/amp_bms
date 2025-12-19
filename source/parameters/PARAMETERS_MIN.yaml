@@ -17,6 +17,6 @@ aniso_pol: False
 eps_rf: 78.4 # Permittivity for the reation field.
 mrf: 4 # Parameter for the shifted reaction field.
 nrf: 6 # Parameter for the shifted reaction field.
-device_name: 'cuda' #
+device_name: 'cuda'
 dtype_name: 'float32'
 max_z: 54 # Define size of embedding table.

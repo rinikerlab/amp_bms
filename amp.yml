@@ -3,6 +3,7 @@ channels:
     - conda-forge
 dependencies:
     - openmm-torch==1.4
+    - cudatoolkit
     - openff-toolkit
     - openmmforcefields
     - pdbfixer

@@ -18,7 +18,6 @@ from amp.AMP import AMP
 from md.TorchForce import ForceModule
 from utilities.Helpers import load_parameters
 
-
 class Simulator:
     def __init__(
         self,
@@ -102,7 +101,7 @@ class Simulator:
         self.cutoff_nb = cutoff_nb
         self.padding = padding
         self.logger.info(
-            f"Using a cutoff of {self.cutoff_nb} A for the nonbonded interactions"
+            f"Using a cutoff of {self.cutoff_nb} for the nonbonded interactions"
         )
         self.logger.info(
             f"Generating pairlist every {self.n_nlist} steps with {self.pairlist_padding} A padding."
@@ -158,9 +157,7 @@ class Simulator:
             self.system.addForce(mm.MonteCarloBarostat(self.P, self.T, self.baro_freq))
         if self.integrator is None:
             integrator = mm.LangevinMiddleIntegrator(self.T, self.friction, self.dT)
-        simulation = mm.app.Simulation(
-            self.modeller.topology, self.system, integrator, self.platform
-        )
+        simulation = mm.app.Simulation(self.modeller.topology, self.system, integrator, self.platform)
         simulation.context.setPositions(self.modeller.positions)
         if minimize and not restart:
             self.logger.info(f"Start Minimization ...")

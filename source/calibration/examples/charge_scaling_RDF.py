@@ -57,7 +57,7 @@ command = f"""python {write_yaml_py} {yaml_path} {dir_path} md {pdb_path} {molec
                 --integrator_temp {temp} --add_prod_csv_reporter  --prod_csv_parameters {csv_json_path} \
                 --production_steps {production_steps} --prod_readout_frequency {prod_read_freq} \
                 --save_final_state --out_state_xml_path {xml_save_path} --forcefield {forcefield_path} \
-                --use_AMP --AMP_parameters_path {amp_parameters_path} \
+                --use_AMP --AMP_parameters_path {amp_parameters_path} --not_minimize \
                 --qm_mm_zones_definition {qm_mm_zone_json_path} --weights_path {weights_path} --mol_charge {charge} \
                 --scaling_charges {scaling_factor_charge} --ff_name {ff_name} --tip4p \
                 """
