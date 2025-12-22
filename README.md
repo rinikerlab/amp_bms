@@ -5,7 +5,8 @@ AMP-BMS is a multiscale neural network potential trained on QM/MM data with elec
 This model is based on the [AMP architecture](https://openreview.net/forum?id=socffUzSIlx) and was used in previous work [1](https://pubs.rsc.org/en/content/articlehtml/2023/sc/d3sc04317g), [2](https://pubs.acs.org/doi/full/10.1021/jacs.4c17015).
 
 ## Usage
-Example usage is shown in source/examples/
+
+Example usage is shown in [here](source/examples/example-simulation.ipynb).
 
 ## Installation
 
