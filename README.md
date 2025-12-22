@@ -15,7 +15,7 @@ conda env create -f amp.yml
 conda activate amp_bms
 
 # Install repo after cloning from github
-pip install .
+pip install -e .
 ````
 
 ## References
