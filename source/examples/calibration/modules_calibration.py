@@ -248,7 +248,7 @@ class D4(nn.Module):
         self.a1 = a1
         self.a2 = a2
         # load D4 data
-        param_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
+        param_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'data')
         path_c6 = os.path.join(param_folder, "ref_C6.npy")
         path_r4r2 = os.path.join(param_folder, "sqrt_r4r2.pth")
         ref_c6 = torch.from_numpy(np.load(path_c6)[:max_z, 0])        
@@ -306,7 +306,7 @@ def conserve_charges(graph: Graph, monopoles):
 class Mu(torch.nn.Module):
     def __init__(self):
         super(Mu, self).__init__()
-        param_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
+        param_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'data')
         path_masses = os.path.join(param_folder, "MASSES.pt")
         self.register_buffer("MASSES", torch.load(path_masses, weights_only=True))
 
@@ -321,7 +321,7 @@ class Mu(torch.nn.Module):
 class Theta(torch.nn.Module):
     def __init__(self):
         super(Theta, self).__init__()
-        param_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
+        param_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'data')
         path_masses = os.path.join(param_folder, "MASSES.pt")
         self.register_buffer("MASSES", torch.load(path_masses, weights_only=True))
 

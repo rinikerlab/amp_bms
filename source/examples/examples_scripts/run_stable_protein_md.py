@@ -5,7 +5,7 @@ from openmm.app import PDBFile
 from pathlib import Path
 
 HERE = Path(__file__).resolve()
-EXAMPLES_DIR = HERE.parent
+EXAMPLES_DIR = HERE.parent.parent
 SOURCE_DIR = EXAMPLES_DIR.parent
 
 OUTPUT_FOLDER = Path("/path/to/output/folder") # ADJUST

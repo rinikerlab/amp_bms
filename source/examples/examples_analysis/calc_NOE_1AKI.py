@@ -6,9 +6,9 @@ import re
 from pathlib import Path
 
 HERE = Path(__file__).resolve()
-EXAMPLES_DIR = HERE.parent
+EXAMPLES_DIR = HERE.parent.parent
 SOURCE_DIR = EXAMPLES_DIR.parent
-file_path = SOURCE_DIR / "data/1e8l.mr" 
+file_path = SOURCE_DIR / "data/1e8l.mr"
 
 def find_missing_atoms(traj, noe_restraints):
     """

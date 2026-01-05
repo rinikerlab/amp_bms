@@ -7,9 +7,11 @@ import csv
 import pickle
 import numpy as np
 import matplotlib.pyplot as plt
+from amp_bms.source.examples.examples_scripts.run_stable_protein_md import EXAMPLES_DIR, HERE
 from pymbar import MBAR, timeseries
 from tqdm import tqdm
 import pandas as pd
+from pathlib import Path
 
 # Constants
 TEMPERATURE = 298.15  # Kelvin
@@ -128,8 +130,11 @@ def calculate_partial_dG(DeltaF_ele:np.ndarray, DeltaF_LJ:np.ndarray, lambda_val
 
 def main(PATH:str):
     # Load mappings
-    json_path = "../data/SFE_mols_FreeSolv_conversion.json" # if needded adjust the path
-    csv_path = "../data/FreeSolv.csv" # if needded adjust the path
+    HERE = Path(__file__).resolve()
+    EXAMPLES_DIR = HERE.parent
+
+    json_path = EXAMPLES_DIR / "data" / "HFE_mols_FreeSolv_conversion.json"
+    csv_path = "/path/to/FreeSolv.csv" #  ADJUST THIS PATH TO YOUR FreeSolv.csv LOCATION
     json_mapping = load_json_mapping(json_path)
     csv_data = load_csv_data(csv_path)
 

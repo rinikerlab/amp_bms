@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 from pymbar import MBAR, timeseries
 from tqdm import tqdm
 import pandas as pd
+from pathlib import Path
 
 # Constants
 TEMPERATURE = 298.15  # Kelvin
@@ -95,8 +96,12 @@ def compute_dG(Uij:np.ndarray, n_windows:int, label:str):
 
 def main(PATH:str, NPY_PATH:str):
     # Load mappings
-    json_path = "../data/SFE_mols_FreeSolv_conversion.json" # if needded adjust the path
-    csv_path = "../data/FreeSolv.csv" # if needded adjust the path
+
+    HERE = Path(__file__).resolve()
+    EXAMPLES_DIR = HERE.parent
+
+    json_path = EXAMPLES_DIR / "data" / "HFE_mols_FreeSolv_conversion.json"
+    csv_path = "/path/to/FreeSolv.csv" #  ADJUST THIS PATH TO YOUR FreeSolv.csv LOCATION
     json_mapping = load_json_mapping(json_path)
     csv_data = load_csv_data(csv_path)
 
