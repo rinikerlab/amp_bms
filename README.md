@@ -6,7 +6,7 @@ This model is based on the [AMP architecture](https://openreview.net/forum?id=so
 
 ## Usage
 
-Example usage is shown in [here](source/examples/example-simulation.ipynb).
+Example usage is shown in [here](source/examples/examples_md/example-simulation.ipynb).
 
 ## Installation
 
