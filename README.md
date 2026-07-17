@@ -24,7 +24,33 @@ pip install -e .
 If you use this code, please cite our papers:
 
 ```bibtex
+@article{AMP3,
+  title = {Multiscale Neural Network Potential with Anisotropic Message Passing for the Fast and Accurate Simulation of Protein Dynamics and Enzymatic Reactions},
+  volume = {148},
+  ISSN = {1520-5126},
+  url = {http://dx.doi.org/10.1021/jacs.6c00217},
+  DOI = {10.1021/jacs.6c00217},
+  number = {27},
+  journal = {Journal of the American Chemical Society},
+  publisher = {American Chemical Society (ACS)},
+  author = {Th\"{u}rlemann,  Moritz and Pultar,  Felix and Gordiy,  Igor and Ruijsenaars,  Enrico and Riniker,  Sereina},
+  year = {2026},
+  pages = {28133--28156}
 
+@article{AMP2,
+  title = {Neural Network Potential with Multiresolution Approach Enables Accurate Prediction of Reaction Free Energies in Solution},
+  volume = {147},
+  ISSN = {1520-5126},
+  url = {http://dx.doi.org/10.1021/jacs.4c17015},
+  DOI = {10.1021/jacs.4c17015},
+  number = {8},
+  journal = {Journal of the American Chemical Society},
+  publisher = {American Chemical Society (ACS)},
+  author = {Pultar,  Felix and Th\"{u}rlemann,  Moritz and Gordiy,  Igor and Doloszeski,  Eva and Riniker,  Sereina},
+  year = {2025},
+  pages = {6835--6856}
+}
+}
 ```
 
 ## Contributors
